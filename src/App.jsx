@@ -46,7 +46,7 @@ const getEditData = (userData)=>{
         <Route path='/add-user' element={<UserForm 
                 render={render} setRender={setRender}
                 formData={formData} setFormData={setFormData}
-                editMode={editMode} editId={editId}/>}/>
+                editMode={editMode} setEditMode={setEditMode} editId={editId}/>}/>
         <Route path='/:userId' element={<Profile 
                 render={render} setRender={setRender} 
                 setFormData={setFormData} getEditData={getEditData}/>}/>

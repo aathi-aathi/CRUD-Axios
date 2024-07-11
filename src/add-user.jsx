@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createUserData, editUser } from './apis';
 import './App.css'
 import { useNavigate } from 'react-router-dom';
-const UserForm = ({render,setRender,formData,setFormData,editMode,editId}) => {
+const UserForm = ({render,setRender,formData,setFormData,editMode,setEditMode,editId}) => {
   const navigate = useNavigate()
   const [loading,setLoading]= useState(false)
   const handleChange = (e) => {
@@ -18,12 +18,15 @@ const UserForm = ({render,setRender,formData,setFormData,editMode,editId}) => {
     setLoading(true)
     await createUserData(formData)
     setRender(render+1)
+    setFormData({})
     navigate('/')
   };
   const handleEdit=async(e)=>{
     e.preventDefault()
     await editUser(formData,editId)
     setRender(render+1)
+    setEditMode(false)
+    setFormData({})
     navigate(`/${editId}`)
   }
 
