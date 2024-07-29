@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const UserForm = ({render,setRender,formData,setFormData,editMode,setEditMode,editId}) => {
   const navigate = useNavigate()
   const [loading,setLoading]= useState(false)
+  const [errors, setErrors] = useState({});
+  let formErrors = {};
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -15,11 +17,22 @@ const UserForm = ({render,setRender,formData,setFormData,editMode,setEditMode,ed
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    setLoading(true)
+    if(!formData.name) formErrors.name ='Name is required'
+    if(!formData.email) formErrors.email ='Email is required'
+    if(!formData.mobile) formErrors.mobile ='Mobile No is required'
+    if(!formData.company) formErrors.company ='Company name is required'
+    if(!formData.address) formErrors.address ='Address is required'
+    if(Object.keys(formErrors).length === 0){
+        setLoading(true)
     await createUserData(formData)
     setRender(render+1)
     setFormData({})
     navigate('/')
+    }
+    else{
+      setErrors(formErrors)
+    }
+  
   };
   const handleEdit=async(e)=>{
     e.preventDefault()
@@ -41,10 +54,10 @@ const UserForm = ({render,setRender,formData,setFormData,editMode,setEditMode,ed
             id="name"
             name="name"
             value={formData.name}
-            onChange={handleChange}
             required
-            
-          />
+            onChange={handleChange}
+            />
+             {errors.name && <div className='text-danger'>{errors.name}</div>}
         </div>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email</label>
@@ -54,23 +67,23 @@ const UserForm = ({render,setRender,formData,setFormData,editMode,setEditMode,ed
             id="email"
             name="email"
             value={formData.email}
-            onChange={handleChange}
             required
-          
-          />
+            onChange={handleChange}
+            />
+             {errors.email && <div className='text-danger'>{errors.email}</div>}
         </div>
         <div className="mb-3">
           <label htmlFor="mobile" className="form-label">Mobile Number</label>
           <input
-            type="text"
+            type="number"
             className="form-control"
             id="mobile"
             name="mobile"
             value={formData.mobile}
-            onChange={handleChange}
             required
-            
-          />
+            onChange={handleChange}
+            />
+            {errors.mobile && <div className='text-danger'>{errors.mobile}</div>}
         </div>
         <div className="mb-3">
           <label htmlFor="company" className="form-label">Company Name</label>
@@ -79,11 +92,11 @@ const UserForm = ({render,setRender,formData,setFormData,editMode,setEditMode,ed
             className="form-control"
             id="company"
             name="company"
+            required
             value={formData.company}
             onChange={handleChange}
-            required
-            
-          />
+            />
+             {errors.company && <div className='text-danger'>{errors.company}</div>}
         </div>
         <div className="mb-3">
           <label htmlFor="address" className="form-label">Address</label>
@@ -95,8 +108,8 @@ const UserForm = ({render,setRender,formData,setFormData,editMode,setEditMode,ed
             value={formData.address}
             onChange={handleChange}
             required
-            
-          />
+            />
+             {errors.address && <div className='text-danger'>{errors.address}</div>}
         </div>
        {!editMode ? <button type="submit" className="btn" onClick={handleSubmit} style={{backgroundColor:'salmon',width:'20vh'}} >
      {loading ? <div className="spinner-border spinner-border-sm text-light" role="status">

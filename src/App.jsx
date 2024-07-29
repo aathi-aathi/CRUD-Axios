@@ -42,7 +42,7 @@ const getEditData = (userData)=>{
     <div className='d-flex flex-wrap justify-content-center align-items-center' style={{height:'100vh'}}>
       <Routes>
         <Route path='/' element={users.map(((user)=>(
-          <Users user={user} key={user.id} render={render} setRender={setRender}/>)))}/>
+          <Users user={user} key={user.id} render={render} setRender={setRender}  getEditData={getEditData}/>)))}/>
         <Route path='/add-user' element={<UserForm 
                 render={render} setRender={setRender}
                 formData={formData} setFormData={setFormData}
